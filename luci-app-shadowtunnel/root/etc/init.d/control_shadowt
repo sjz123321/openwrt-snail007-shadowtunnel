@@ -1,0 +1,77 @@
+#!/bin/sh /etc/rc.common
+START=50
+
+run_shadowtunnel()
+{
+	local ipaddr
+	local port
+	local switch
+	local udp
+	local pwenable
+	local passwd
+	config_get udp $1 udp
+	config_get pwenable $1 pwenable
+	config_get passwd $1 passwd
+	config_get switch $1 switch
+	config_get ipaddr $1 ipaddr
+	config_get port $1 port
+	config_get localport $1 localport
+	echo $ipaddr:$port
+	echo $localport
+case $switch in
+enable)
+	case $udp in
+		normal)
+			case $pwenable in
+				enable)
+					nohup /usr/bin/shadowtunnel/shadowtunnel -E -f $ipaddr:$port -l :$localport -p $passwd> /dev/null 2>&1 &
+					sh /etc/ipt.sh $ipaddr $localport start
+					;;
+					
+				disable)
+					nohup /usr/bin/shadowtunnel/shadowtunnel -E -f $ipaddr:$port -l :$localport > /dev/null 2>&1 &
+					sh /etc/ipt.sh $ipaddr $localport start
+					;;
+			esac
+			
+			;;
+		udp)
+			case $pwenable in
+				enable)
+					nohup /usr/bin/shadowtunnel/shadowtunnel -U -E -f $ipaddr:$port -l :$localport -p $passwd> /dev/null 2>&1 &
+					sh /etc/ipt.sh $ipaddr $localport start
+					
+					;;
+					
+				disable)
+					nohup /usr/bin/shadowtunnel/shadowtunnel -U -E -f $ipaddr:$port -l :$localport > /dev/null 2>&1 &
+					sh /etc/ipt.sh $ipaddr $localport start
+					
+					;;
+			esac
+			
+			;;
+	esac
+
+	;;
+
+disable)
+	kill -9 $(pidof shadowtunnel)
+	sh /etc/ipt.sh $ipaddr $localport stop
+
+	;;
+
+esac
+
+}
+
+start()
+{
+	config_load shadowtunnel
+	config_foreach run_shadowtunnel login
+}
+
+stop()
+{
+	echo "shadowtunnel has stoped."
+}

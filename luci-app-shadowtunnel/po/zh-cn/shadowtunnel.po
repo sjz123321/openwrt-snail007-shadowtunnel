@@ -1,0 +1,42 @@
+msgid "Shadowtunnel tproxy"
+msgstr "Shadowtunnel透明代理"
+
+msgid "a tiny tproxy software"
+msgstr "一个高效的轻量级代理工具"
+
+msgid "switch"
+msgstr "代理开关"
+
+msgid "enable"
+msgstr "开启"
+
+msgid "disable"
+msgstr "关闭"
+
+msgid "server ip address"
+msgstr "服务器IP地址"
+
+msgid "server port"
+msgstr "服务器端口"
+
+msgid "local port"
+msgstr "本地端口"
+
+msgid "udp over tcp functions"
+msgstr "udp over tcp功能"
+
+msgid "normal mode"
+msgstr "普通模式"
+
+msgid "udp over tcp mode"
+msgstr "udp over tcp模式"
+
+msgid "password function enable"
+msgstr "是否使用传输密码"
+
+msgid "password"
+msgstr "密码"
+
+
+
+
