@@ -16,7 +16,8 @@ optional password to encrypt the connection between client & server
 
 tcp over udp function makes proxy more flexible
 
-## Some Screenshots
+## Screenshot
+![1.1](/pic/main_en.jpg)
 
 ## For developer
 
