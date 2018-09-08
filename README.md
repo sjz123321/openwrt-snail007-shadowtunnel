@@ -4,6 +4,12 @@ openwrt package for snail007-shadowtunnel
 
 Thanks for snail007's help @snail007
 
+## version
+
+v1.0
+
+Program release
+
 ## Features
 
 Secure tunnel which help you protecting your tcp traffic between your machine and your service on remote.
