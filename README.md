@@ -4,6 +4,8 @@ openwrt package for snail007-shadowtunnel
 
 Thanks for snail007's help @snail007
 
+**[中文](/README-ZH-CN.md)**
+
 ## version
 
 v1.0
