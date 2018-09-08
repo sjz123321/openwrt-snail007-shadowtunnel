@@ -4,7 +4,7 @@ openwrt package for snail007-shadowtunnel
 
 Thanks for snail007's help @snail007
 
-##Features
+## Features
 
 Secure tunnel which help you protecting your tcp traffic between your machine and your service on remote.
 
@@ -16,11 +16,11 @@ optional password to encrypt the connection between client & server
 
 tcp over udp function makes proxy more flexible
 
-##Some Screenshots
+## Some Screenshots
 
-##For developer
+## For developer
 
-###compile
+### compile
 
 Firstly you should build openwrt compiling environment or have a openwrt SDK based on your platform.
 
