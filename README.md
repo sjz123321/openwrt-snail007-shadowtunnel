@@ -29,13 +29,17 @@ See https://openwrt.org/docs/guide-developer/source-code/start
 After that running following command on the openwrt root directory
 
 `./scripts/feeds update`
+
 `./scripts/feeds install -a`
 
 Ok,now we have updated feeds package for openwrt compiling system
 
 `cd /package`
+
 `git clone https://github.com/sjz123321/openwrt-snail007-shadowtunnel.git`
-`cd ..`
+
+`cd ../`
+
 `make menuconfig`
 
 after a while you can see the menuconfig`
