@@ -56,3 +56,9 @@ exit&save
 `make V=99`
 
 enjoy!
+
+### compile setting screenshot
+![1.2](/pic/after_git.png) 
+![1.3](/pic/luci_app.png) 
+![1.4](/pic/luci_app_in.png) 
+![1.5](/pic/dnsmasq.png) 
