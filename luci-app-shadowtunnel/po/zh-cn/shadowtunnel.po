@@ -22,21 +22,26 @@ msgstr "服务器端口"
 msgid "local port"
 msgstr "本地端口"
 
-msgid "udp over tcp functions"
-msgstr "udp over tcp功能"
+msgid "transport protocol"
+msgstr "传输协议"
 
-msgid "normal mode"
-msgstr "普通模式"
+msgid "tcp mode"
+msgstr "普通tcp模式"
 
 msgid "udp over tcp mode"
 msgstr "udp over tcp模式"
 
-msgid "password function enable"
-msgstr "是否使用传输密码"
+msgid "password mode"
+msgstr "传输密码设置"
 
 msgid "password"
-msgstr "密码"
+msgstr "传输密码"
 
+msgid "manual"
+msgstr "自定义传输密码"
+
+msgid "default"
+msgstr "默认传输密码(下面输入密码无效)"
 
 
 
