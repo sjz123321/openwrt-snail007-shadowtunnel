@@ -24,6 +24,33 @@ optional password to encrypt the connection between client & server
 
 tcp over udp function makes proxy more flexible
 
+## Install Guide
+
+### Arch of my router processor?
+
+firstly connect to your router by ssh2 or serial port.And make sure you can go online.
+
+runing `opkg update` after that you can see your cpu arch like this
+![1.6](/pic/cpu_arch.jpg)
+
+### How to install them
+
+download shadowtunnel + luci-app- (default language is English so you don't need to download luci-i18n-)
+
+upload the package to your router by WinSCP or other software
+
+enter the path which you upload the packages
+
+`opkg install shadowtunnel_*.ipk`
+
+`opkg install luci-app-shadowtunnel*`
+
+refresh the page
+
+now you can find it in service-->shadowtunnel
+
+Thanks && enjoy!
+
 ## Screenshot
 ![1.1](/pic/main_en.jpg)
 
