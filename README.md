@@ -31,7 +31,7 @@ tcp over udp function makes proxy more flexible
 firstly connect to your router by ssh2 or serial port.And make sure you can go online.
 
 runing `opkg update` after that you can see your cpu arch like this
-![1.6](/pic/cpu_arch.jpg)
+![1.6](/pic/cpu_arch.png)
 
 ### How to install them
 
