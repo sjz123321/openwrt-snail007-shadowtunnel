@@ -24,6 +24,33 @@ v1.0
 
 可选择tcp over udp功能使用
 
+## 安装教程
+
+### 如何判断路由器cpu架构?
+
+首先用串口或者ssh连接到路由器
+
+运行 `opkg update` 之后你会看到cpu的架构如下图所示
+![1.6](/pic/cpu_arch.png)
+
+### 如何安装程序包?
+
+下载 shadowtunnel + luci-app- luci-i18n-
+
+将程序包上传到路由器中
+
+进入程序包放置的目录运行如下代码
+
+`opkg install shadowtunnel_*.ipk`
+
+`opkg install luci-app-shadowtunnel*`
+
+刷新路由管理页面
+
+现在你可以在 服务-->shadowtunnel 中找到他了
+
+Thanks && enjoy!
+
 ## 界面截图
 ![1.1](/pic/main_cn.jpg)
 
