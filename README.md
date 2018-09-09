@@ -26,7 +26,7 @@ tcp over udp function makes proxy more flexible
 
 ## Install Guide
 
-### Arch of my router processor?
+### Arch of your router processor?
 
 firstly connect to your router by ssh2 or serial port.And make sure you can go online.
 
