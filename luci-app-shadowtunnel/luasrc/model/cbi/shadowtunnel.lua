@@ -12,7 +12,7 @@ switch:value("disable",translate("disable"))
 
 udp=s:option(ListValue,"udp",translate("transport protocol"))
 udp:value("normal",translate("tcp mode"))
-udp:value("udp",translate("udp over tcp mode"))
+udp:value("udp",translate("tcp over udp mode"))
 
 ipaddr=s:option(Value,"ipaddr",translate("server ip address"))
 ipaddr.datatype = "ip4addr"
