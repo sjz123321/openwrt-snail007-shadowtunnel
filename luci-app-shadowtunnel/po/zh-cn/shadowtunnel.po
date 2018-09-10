@@ -28,8 +28,8 @@ msgstr "传输协议"
 msgid "tcp mode"
 msgstr "普通tcp模式"
 
-msgid "udp over tcp mode"
-msgstr "udp over tcp模式"
+msgid "tcp over udp mode"
+msgstr "tcp over udp模式"
 
 msgid "password mode"
 msgstr "传输密码设置"
