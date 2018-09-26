@@ -14,13 +14,7 @@ msgid "disable"
 msgstr "关闭"
 
 msgid "server ip address"
-msgstr "服务器IP地址"
-
-msgid "server port"
-msgstr "服务器端口"
-
-msgid "local port"
-msgstr "本地端口"
+msgstr "服务器地址"
 
 msgid "transport protocol"
 msgstr "传输协议"
@@ -31,17 +25,87 @@ msgstr "普通tcp模式"
 msgid "tcp over udp mode"
 msgstr "tcp over udp模式"
 
-msgid "password mode"
-msgstr "传输密码设置"
-
 msgid "password"
 msgstr "传输密码"
 
-msgid "manual"
-msgstr "自定义传输密码"
+msgid "Note: To save memory , compression is off"
+msgstr "注意：为了节省内存压缩功能默认关闭"
 
-msgid "default"
-msgstr "默认传输密码(下面输入密码无效)"
+msgid "prevent DNS pollution"
+msgstr "防止DNS污染"
 
+msgid "Note: enable this option will using tcp_port 20369"
+msgstr "注意：允许此选项会开放tcp端口20369"
 
+msgid "Automaticly restart shadowtunnel"
+msgstr "定时重启shadowtunnel"
+
+msgid "3 hours"
+msgstr "3小时"
+
+msgid "6 hours"
+msgstr "6小时"
+
+msgid "12 hours"
+msgstr "12小时"
+
+msgid "24 hours"
+msgstr "24小时"
+
+msgid "Proxy mode selection"
+msgstr "选择代理模式"
+
+msgid "Bypassing the Chinese mainland's ip mode"
+msgstr "绕过中国IP"
+
+msgid "Global mode"
+msgstr "全局代理"
+
+msgid "select a time to update CHN-IPs list everyday"
+msgstr "每天自动更新中国IP段的时间点"
+
+msgid "Note:To ensure GFW is up to date GFW-List will be update every week.but it may cost a long time so it is recommanded to update when you are not using router."
+msgstr "注意：为了确保GFW实时更新，请选择一个空闲时间更新GFW-list 推荐在您不使用路由器时"
+
+msgid "Note: Please enter the server's ip:port@weight like example. Example NO.1 11.22.33.44:5566@1 when you are using weight balance-strategy don't forget @(your_setting_weight) Example NO.2 11.22.33.44:5566 when you are not using weight balance-strategy OR you have only one server"
+msgstr "注意：请根据例子输入服务器IP:端口@负载均衡参数。例子.1 11.22.33.44:5566@1 当你使用负载均衡策略时 请使用这种格式 @后面的数表示负载均衡参数  例子.2 11.22.33.44:5566 当你不使用负载均衡策略 或者 你仅有一个上级时 请使用这种格式"
+
+msgid "balance strategy"
+msgstr "负载均衡策略"
+
+msgid "roundrobin"
+msgstr "轮询"
+
+msgid "leastconn"
+msgstr "最少连接"
+
+msgid "hash"
+msgstr "根据客户端地址计算出一个固定上级"
+
+msgid "weight"
+msgstr "根据权重"
+
+msgid "leasttime"
+msgstr "最短连接时间"
+
+msgid "aes-192-cfb(default)"
+msgstr "aes-192-cfb(默认)"
+
+msgid "encrypt method"
+msgstr"传输加密方式"
+
+msgid "To ensure the stable operation of shadowtunnel,you can set the timer to restart it automaticly"
+msgstr "为了确保shadowtunnel的稳定运行，你可以设置定时重启shadowtunnel"
+
+msgid "Custom hosts setting"
+msgstr "自定义hosts"
+
+msgid "<br/>Note: Shadowtunnel provides custom hosts in the same format as the hosts file,which you can customize as needed"
+msgstr "<br/>注意：shadowtunnel提供了自定义hosts功能，格式与系统hosts文件格式相同。（仅当启用dns时有效）"
+
+msgid "IP list without proxy"
+msgstr "不经过代理直连的IP"
+
+msgid "<br/>Add the IP list with directly connected to the list, one per line, in the format 1.2.3.4. You can use the cidr format such as 10.0.0.0/8."
+msgstr "<br/>请将需要直接连接的IP加入列表中，每行一个，格式为 1.2.3.4 可以使用cidr格式如10.0.0.0/8"
 

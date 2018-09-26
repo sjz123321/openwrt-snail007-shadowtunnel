@@ -1,9 +1,12 @@
 
 config login
+	option mode 'GFW'
 	option switch 'disable'
-	option ipaddr '11.22.33.44'
-	option port '7878'
-	option localport '1080'
+	list ipaddr '11.22.33.44:5566@2'
 	option udp 'normal'
 	option pwenable 'disable'
-	option passwd ''
+	option passwd 'shadowtunnel'
+	option dns_enable '1'
+	option hour '3'
+	option strategy 'oundrobin'
+	option encrypt 'aes-192-cfb'

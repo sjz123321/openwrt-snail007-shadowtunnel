@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for shadowtunnel
-LUCI_DEPENDS:= +iptables-mod-tproxy +kmod-ipt-tproxy +ip +dnsmasq-full +shadowtunnel
+LUCI_DEPENDS:=+luci +iptables +ipset +dnsmasq-full
 LUCI_PKGARCH:=all
 PKG_VERSION:=1.0
 PKG_RELEASE:=7

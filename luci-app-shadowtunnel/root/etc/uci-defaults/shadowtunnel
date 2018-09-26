@@ -1,0 +1,4 @@
+#!/bin/sh
+
+chmod 777 /etc/shadowtunnel/*
+exit 0
