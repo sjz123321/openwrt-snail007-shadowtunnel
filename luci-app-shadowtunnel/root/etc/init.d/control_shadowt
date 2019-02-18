@@ -3,6 +3,7 @@ START=50
 
 run_shadowtunnel()
 {
+	##var defination
 	local ipaddr
 	local port
 	local switch
@@ -14,42 +15,44 @@ run_shadowtunnel()
 	local dns
 	local mode
 	local hour
+	local reset
+	local strategy
 	local encrypt
-	config_get mode $1 mode
-	config_get hour $1 hour
+	local hosts
+	local cmd
+	##var assignment
+	config_get switch $1 switch
 	config_get udp $1 udp
 	config_get passwd $1 passwd
-	config_get switch $1 switch
 	config_get dns_enable $1 dns_enable
+	config_get mode $1 mode
+	config_get hour $1 hour
 	config_get reset $1 reset
 	config_get strategy $1 strategy
 	config_get encrypt $1 encrypt
 	hosts="-dns-hosts /tmp/st_hosts.dat"
+	localport="20369"
+	dns="53"
+	pwenable=`echo $passwd | wc -w`
+	cmd="/usr/bin/shadowtunnel/shadowtunnel "
+	##pre-treatment
+	mode_select
 	ip_list
 	extra_ip
 	hosts_setting
 	cron_update $hour
-	case $mode in
-        GFW)
-            run_mode=GFW
-
-            ;;
-
-        Global)
-            run_mode=start
-
-            ;;
-            
-    esac
-	localport="20369"
-	dns="53"
-	echo $passwd >> /tmp/pwenable.tmp
-	pwenable=`cat /tmp/pwenable.tmp | wc -w`
-	rm -f /tmp/pwenable.tmp
+	#####
+	##test output
 	echo $ipaddr:$port
 	echo $localport
+	##
 	sh /etc/shadowtunnel/shadowtunnel_cron.sh $reset start
 	sh /etc/shadowtunnel/ipt.sh $ipaddr $localport $run_mode
+	##runing parameters determination
+	udp_switch
+	next=$ip_result -l :$localport -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
+	cmd=${cmd}${next}
+	
 case $switch in
 enable)
 	case $udp in
@@ -254,4 +257,33 @@ hosts_setting()
     a=`uci get /etc/config/shadowtunnel.@login[0].hosts`
     printf "$a" >> /tmp/st_hosts.dat
     
+}
+
+##new
+mode_select()
+{
+	case $mode in
+        GFW)
+            run_mode=GFW
+
+            ;;
+
+        Global)
+            run_mode=start
+
+            ;;
+            
+    esac
+}
+
+udp_switch()
+{
+	case $udp in
+		normal)
+			cmd=${cmd}"-E "
+			;;
+		udp)
+			cmd=${cmd}"-U -E "
+			;;
+	esac
 }
