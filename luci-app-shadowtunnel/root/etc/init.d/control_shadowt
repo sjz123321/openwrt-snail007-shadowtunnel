@@ -36,143 +36,44 @@ run_shadowtunnel()
 	pwenable=`echo $passwd | wc -w`
 	cmd="/usr/bin/shadowtunnel/shadowtunnel "
 	##pre-treatment
-	mode_select
-	ip_list
-	extra_ip
+	ip_result=`uci get /etc/config/shadowtunnel.@login[0].ipaddr | awk '{for(i=1;i<=NF;i++) printf " -f "$i}'`
 	hosts_setting
-	cron_update $hour
-	#####
-	##test output
-	echo $ipaddr:$port
-	echo $localport
-	##
-	sh /etc/shadowtunnel/shadowtunnel_cron.sh $reset start
-	sh /etc/shadowtunnel/ipt.sh $ipaddr $localport $run_mode
-	##runing parameters determination
-	udp_switch
-	next=$ip_result -l :$localport -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
-	cmd=${cmd}${next}
-	
-case $switch in
-enable)
-	case $udp in
-		normal)
-			case $pwenable in
-				0)
-					case $dns_enable in
-                        0)
-							/usr/bin/shadowtunnel/shadowtunnel -E $ip_result -l :$localport -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
-
-                            				;;
-
-                        *)
-							dns_setting enable $dns
-							/usr/bin/shadowtunnel/shadowtunnel -E $ip_result -l :$localport -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :$dns -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt $hosts -nolog
-							
-
-                            				;;
-
-                    esac
-
-					;;
-					
-				*)
-					case $dns_enable in
-                        0)
-							/usr/bin/shadowtunnel/shadowtunnel -E $ip_result -l :$localport -p $passwd -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
-
-                            				;;
-
-                        *)
-							dns_setting enable $dns
-							/usr/bin/shadowtunnel/shadowtunnel -E $ip_result -l :$localport -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -p $passwd -dns :$dns -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt $hosts -nolog
-							
-
-                            				;;
-
-                    esac
-
-					;;
-
-
-			esac
-			
-			;;
-		udp)
-			case $pwenable in
-				0)
-					case $dns_enable in
-                        0)
-							/usr/bin/shadowtunnel/shadowtunnel -U -E $ip_result -l :$localport -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
-
-                            				;;
-
-                        *)
-							dns_setting enable $dns
-							/usr/bin/shadowtunnel/shadowtunnel -U -E $ip_result -l :$localport -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :$dns -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt $hosts -nolog
-							
-
-                            				;;
-
-                    			esac
-					
-					;;
-					
-				*)
-					case $dns_enable in
-                        0)
-							/usr/bin/shadowtunnel/shadowtunnel -U -E $ip_result -l :$localport -p $passwd -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt -nolog
-
-                            				;;
-
-                        *)
-							dns_setting enable $dns
-							/usr/bin/shadowtunnel/shadowtunnel -U -E $ip_result -l :$localport -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -p $passwd -dns :$dns -daemon -forever -redir -lb-method $strategy -lb-hashtarget -m $encrypt $hosts -nolog
-							
-
-                            				;;
-
-                    			esac
-					
-					;;
-			esac
-			
-			;;
+	mode_select
+	case $switch in
+	enable)
+		main_process
+		;;
+	disable)
+		shutdown_process
+		;;
 	esac
-
-	;;
-
-disable)
-	kill -9 $(pidof shadowtunnel)
-    kill -9 $(pidof shadowtunnel)
-    sh /etc/shadowtunnel/shadowtunnel_cron.sh 3 stop
-    dns_setting disable 0
-	sh /etc/shadowtunnel/ipt.sh $ipaddr $localport stop
-	/etc/init.d/firewall restart
-	rm -f /tmp/st_hosts.dat
-
-	;;
-
-esac
-
-}
-
-start()
+	#####
+	}
+hosts_setting()
 {
-	config_load shadowtunnel
-	config_foreach run_shadowtunnel login
+    rm -f /tmp/st_hosts.dat
+    a=`uci get /etc/config/shadowtunnel.@login[0].hosts`
+    printf "$a" >> /tmp/st_hosts.dat
 }
-
-stop()
+mode_select()
 {
-	echo "shadowtunnel has stoped."
-}
+	case $mode in
+        GFW)
+            run_mode=GFW
 
+            ;;
+
+        Global)
+            run_mode=start
+
+            ;;
+            
+    esac
+}
 dns_setting()
 {
 	case $1 in
 		enable)
-			port=$2
 			uci delete dhcp.cfg02411c.nonegcache
 			uci delete dhcp.cfg02411c.filterwin2k
 			uci set dhcp.@dnsmasq[0].nonwildcard='0'
@@ -194,96 +95,71 @@ dns_setting()
 			
 	esac
 }
-
-cron_update()
+main_process()
 {
-    mkdir -p /etc/crontabs
-    touch /etc/crontabs/root
-    cp /etc/crontabs/root /tmp/crondd
-    count=`grep "update_chn_ipaddr.sh" /tmp/crondd -n`
-    num=${count%:*}
-    sed -i "$num"d /tmp/crondd
-    echo "11 $hour * * * sh /etc/shadowtunnel/update_chn_ipaddr.sh" >> /tmp/crondd
-    crontab /tmp/crondd
-    rm -f /tmp/crondd
-    echo "GFW database is up to date"
-}
-
-ip_list()
-{
-	touch /tmp/raw_ip.temp
-	touch /tmp/ip_list.temp
-    	rm -f /tmp/ip_list.temp
-	rm -f /tmp/raw_ip.temp
-    	a=`uci get /etc/config/shadowtunnel.@login[0].ipaddr`
-    	n=0
-    	IFS=" "
-    	for v in $a
-    	do
-        	n=`expr $n + 1`
-        	if expr "$v" : '.* .*' > /dev/null
-        	then
-            		z="\"$v\""
-        	else
-            		z="$v"
-        	fi
-	echo "$z" >> /tmp/raw_ip.temp
-        printf "-f $z " >> /tmp/ip_list.temp
-    	done
-    ip_result=`cat /tmp/ip_list.temp`
-}
-
-extra_ip()
-{
-    	a=`uci get /etc/config/shadowtunnel.@login[0].extra`
-    	n=0
-    	IFS=" "
-    	for v in $a
-    	do
-        	n=`expr $n + 1`
-        	if expr "$v" : '.* .*' > /dev/null
-        	then
-            		z="\"$v\""
-        	else
-            		z="$v"
-        	fi
-	echo "$z" >> /tmp/raw_ip.temp
-    	done
-}
-
-hosts_setting()
-{
-    rm -f /tmp/st_hosts.dat
-    a=`uci get /etc/config/shadowtunnel.@login[0].hosts`
-    printf "$a" >> /tmp/st_hosts.dat
-    
-}
-
-##new
-mode_select()
-{
+	PATH="/usr/bin/shadowtunnel/shadowtunnel "
+	pwenable=`echo $passwd | wc -w`
+	dns_arg=""
+	passwd_arg=""
+	udp_arg=""
+	console_cmd=""
+	case $udp in
+		normal)
+			;;
+		udp)
+			udp_arg="-U "
+			;;
+	esac
+	case $pwenable in
+		0)
+			;;
+		*)
+			passwd_arg=" -p "${passwd}
+			;;
+	esac
+	case $dns_enable in
+		0)
+			dns_setting disable
+			;;
+		*)
+			dns_setting enable
+			dns_arg=" -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
+			;;
+	esac
 	case $mode in
         GFW)
             run_mode=GFW
-
+			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
             ;;
 
         Global)
             run_mode=start
-
+			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
             ;;
-            
     esac
+	console_cmd=${PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" -daemon -forever -redir -nolog"
+	echo "test-test"
+	echo $console_cmd
+	
+}
+shutdown_process()
+{
+	kill -9 $(pidof shadowtunnel)
+	sleep 3
+	kill -9 $(pidof shadowtunnel)
+	dns_setting disable 0
+	sh /etc/shadowtunnel/ipt.sh $ipaddr $localport stop
+	/etc/init.d/firewall restart
+	rm -f /tmp/st_hosts.dat
+	echo "stoped"
+}
+start()
+{
+	config_load shadowtunnel
+	config_foreach run_shadowtunnel login
 }
 
-udp_switch()
+stop()
 {
-	case $udp in
-		normal)
-			cmd=${cmd}"-E "
-			;;
-		udp)
-			cmd=${cmd}"-U -E "
-			;;
-	esac
+	echo "shadowtunnel has stoped."
 }
