@@ -139,7 +139,7 @@ main_process()
     esac
 	console_cmd=${PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" -daemon -forever -redir -nolog"
 	echo "test-test"
-	echo $console_cmd
+	$console_cmd
 	
 }
 shutdown_process()
