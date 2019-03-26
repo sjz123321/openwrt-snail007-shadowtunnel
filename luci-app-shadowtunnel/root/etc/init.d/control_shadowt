@@ -97,7 +97,7 @@ dns_setting()
 }
 main_process()
 {
-	PATH="/usr/bin/shadowtunnel/shadowtunnel "
+	EXEC_PATH="/usr/bin/shadowtunnel/shadowtunnel "
 	pwenable=`echo $passwd | wc -w`
 	dns_arg=""
 	passwd_arg=""
@@ -137,7 +137,7 @@ main_process()
 			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
             ;;
     esac
-	console_cmd=${PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" -daemon -forever -redir -nolog"
+	console_cmd=${EXEC_PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" -daemon -forever -redir -nolog"
 	echo "test-test"
 	$console_cmd
 	
