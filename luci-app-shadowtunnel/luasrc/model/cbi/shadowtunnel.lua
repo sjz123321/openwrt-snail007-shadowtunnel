@@ -103,6 +103,7 @@ local e=luci.http.formvalue("cbi.apply")
 if e then
   os.execute("chmod +x /etc/init.d/control_shadowt")
   io.popen("/etc/init.d/control_shadowt restart")
+  os.execute("sh /etc/shadowtunnel/shadowtunnel_cron.sh")
 end
 
 return m

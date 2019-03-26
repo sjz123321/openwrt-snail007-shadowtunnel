@@ -41,6 +41,7 @@ run_shadowtunnel()
 	mode_select
 	case $switch in
 	enable)
+		shutdown_process
 		main_process
 		;;
 	disable)
@@ -77,10 +78,9 @@ dns_setting()
 			uci delete dhcp.cfg02411c.nonegcache
 			uci delete dhcp.cfg02411c.filterwin2k
 			uci set dhcp.@dnsmasq[0].nonwildcard='0'
-            		uci set dhcp.@dnsmasq[0].port='5353'
-            		/etc/init.d/dnsmasq reload
-            		sleep 3
-			
+            uci set dhcp.@dnsmasq[0].port='5353'
+            /etc/init.d/dnsmasq reload
+			uci commit
 			;;
 
 		disable)
@@ -89,8 +89,7 @@ dns_setting()
 			uci set dhcp.cfg02411c.nonegcache='0'
 			uci set dhcp.cfg02411c.filterwin2k='0'
 			/etc/init.d/dnsmasq reload
-			sleep 3
-			
+			uci commit
 			;;
 			
 	esac
@@ -145,10 +144,12 @@ main_process()
 shutdown_process()
 {
 	kill -9 $(pidof shadowtunnel)
-	sleep 3
 	kill -9 $(pidof shadowtunnel)
 	dns_setting disable 0
-	sh /etc/shadowtunnel/ipt.sh $ipaddr $localport stop
+	iptables -t nat -X PROXY
+	iptables -t nat -F PROXY
+	ipset destroy ipchn
+	##sh /etc/shadowtunnel/ipt.sh $ipaddr $localport stop
 	/etc/init.d/firewall restart
 	rm -f /tmp/st_hosts.dat
 	echo "stoped"
