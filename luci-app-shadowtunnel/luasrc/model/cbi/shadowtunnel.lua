@@ -15,7 +15,7 @@ mode:value("GFW",translate("Bypassing the Chinese mainland's ip mode"))
 mode:value("Global",translate("Global mode"))
 
 ipaddr=s:option(DynamicList,"ipaddr",translate("server ip address"))
-ipaddr.description = translate("Note: Please enter the server's ip:port@weight like example. Example NO.1 11.22.33.44:5566@1 when you are using weight balance-strategy don't forget @(your_setting_weight) Example NO.2 11.22.33.44:5566 when you are not using weight balance-strategy OR you have only one server")
+ipaddr.description = translate("Note: Please enter the server's password@ip:port#weight like example. Example st@11.22.33.44:5566#1 Both @.. and #.. is optional. a. Using weight balance-strategy ...#(your_setting_weight). b. Setting unique password for this server (your_passwd)@... ps. -p password is a global password. if you are not setting unique password for the server")
 
 encrypt=s:option(ListValue,"encrypt",translate("encrypt method"))
 encrypt:value("aes-192-cfb",translate("aes-192-cfb(default)"))
