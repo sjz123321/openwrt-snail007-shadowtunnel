@@ -1,4 +1,12 @@
 #!/bin/sh
+switch=`uci get /etc/config/shadowtunnel.@login[0].switch`
+case $switch in
+enable)
+	;;
+disable)
+	exit 0
+	;;
+esac
 reset=`uci get /etc/config/shadowtunnel.@login[0].reset`
 case $reset in
 0)
