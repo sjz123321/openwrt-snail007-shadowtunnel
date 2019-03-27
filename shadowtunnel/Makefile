@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowtunnel
-PKG_VERSION:=v1.2
+PKG_VERSION:=v1.7
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 ifeq ($(ARCH),x86_64) 
