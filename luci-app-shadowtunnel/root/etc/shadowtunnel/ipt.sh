@@ -3,13 +3,14 @@ add_serveripaddr()
 {
         while :
         do
-                temp=`echo $1 | wc -w`
-                case $temp in
+                num=`echo $1 | wc -w`
+                case $num in
                 0)
                         break
                         ;;
                 *)
-                        iptables -t nat -A PROXY -d ${1%%:*} -j RETURN
+						temp=${1%%:*}
+                        iptables -t nat -A PROXY -d ${temp##*@} -j RETURN
                         shift
                         ;;
                 esac
