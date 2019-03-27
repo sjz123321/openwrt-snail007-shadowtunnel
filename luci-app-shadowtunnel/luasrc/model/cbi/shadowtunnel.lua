@@ -78,6 +78,7 @@ hour:value("20")
 hour:value("21")
 hour:value("22")
 hour:value("23")
+hour:value("24",translate("disable"))
 hour.description = translate("Note:To ensure GFW is up to date GFW-List will be update every week.but it may cost a long time so it is recommanded to update when you are not using router.")
 
 reset=s:option(ListValue,"reset",translate("Automaticly restart shadowtunnel"))
@@ -101,9 +102,12 @@ hosts.description = translate("<br/>Note: Shadowtunnel provides custom hosts in 
 
 local e=luci.http.formvalue("cbi.apply")
 if e then
-  os.execute("chmod +x /etc/init.d/control_shadowt")
   io.popen("/etc/init.d/control_shadowt restart")
+  os.execute("crontab -r")
+  --if (switch==enable) then
   os.execute("sh /etc/shadowtunnel/shadowtunnel_cron.sh")
+  --end
+  --os.execute("sh /etc/shadowtunnel/ipset_cron.sh")
 end
 
 return m

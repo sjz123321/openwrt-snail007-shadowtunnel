@@ -1,4 +1,5 @@
 #!/bin/sh
 
 chmod 777 /etc/shadowtunnel/*
+chmod +x /etc/init.d/control_shadowt
 exit 0
