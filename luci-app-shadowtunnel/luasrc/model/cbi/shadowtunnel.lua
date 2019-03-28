@@ -111,10 +111,10 @@ dns_forward.description = translate("<br/>Note: Shadowtunnel provides custom hos
 
 local e=luci.http.formvalue("cbi.apply")
 if e then
-  io.popen("/etc/init.d/control_shadowt restart")
+  io.popen("/etc/init.d/control_shadowt restart &")
   os.execute("crontab -r")
   --if (switch==enable) then
-  os.execute("sh /etc/shadowtunnel/shadowtunnel_cron.sh")
+  os.execute("sh /etc/shadowtunnel/shadowtunnel_cron.sh &")
   --end
   --os.execute("sh /etc/shadowtunnel/ipset_cron.sh")
 end

@@ -183,6 +183,7 @@ shutdown_process()
 }
 start()
 {
+	sleep 5
 	config_load shadowtunnel
 	config_foreach run_shadowtunnel login
 }
