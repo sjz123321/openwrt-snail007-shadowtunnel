@@ -31,6 +31,7 @@ run_shadowtunnel()
 	config_get strategy $1 strategy
 	config_get encrypt $1 encrypt
 	hosts="-dns-hosts /tmp/st_hosts.dat"
+	dns_forward="-dns-forward /tmp/dns_forward.dat"
 	localport="20369"
 	dns="53"
 	pwenable=`echo $passwd | wc -w`
@@ -98,14 +99,26 @@ main_process()
 {
 	EXEC_PATH="/usr/bin/shadowtunnel/shadowtunnel "
 	hosts_PATH="/tmp/st_hosts.dat"
+	dns_forward_PATH="/tmp/dns_forward.dat"
 	pwenable=`echo $passwd | wc -w`
 	hosts_enable=`uci get shadowtunnel.@login[0].hosts | wc -w`
+	dns_forward_enable=`uci get shadowtunnel.@login[0].dns_forward | wc -w`
 	dns_arg=""
 	passwd_arg=""
 	udp_arg=""
 	console_cmd=""
+	case $dns_forward_enable in
+		0)
+			dns_forward=""
+			;;
+		*)
+			rm -f ${dns_forward_PATH}
+			uci get shadowtunnel.@login[0].dns_forward > ${dns_forward_PATH}
+			;;
+	esac
 	case $hosts_enable in
 		0)
+			hosts=""
 			;;
 		*)
 			rm -f ${hosts_PATH}
@@ -145,8 +158,12 @@ main_process()
             run_mode=start
 			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
             ;;
+		DNS)
+			dns_setting enable
+			dns_arg=" -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
+			;;
     esac
-	console_cmd=${EXEC_PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" -daemon -forever -redir -nolog"
+	console_cmd=${EXEC_PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" "$dns_forward" -daemon -forever -redir -nolog"
 	echo "test-test"
 	$console_cmd
 	
