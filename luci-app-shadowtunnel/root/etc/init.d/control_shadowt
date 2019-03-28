@@ -79,8 +79,8 @@ dns_setting()
 			uci delete dhcp.cfg02411c.filterwin2k
 			uci set dhcp.@dnsmasq[0].nonwildcard='0'
             uci set dhcp.@dnsmasq[0].port='5353'
-            /etc/init.d/dnsmasq reload
 			uci commit
+            /etc/init.d/dnsmasq reload
 			;;
 
 		disable)
@@ -88,8 +88,8 @@ dns_setting()
 			uci delete dhcp.@dnsmasq[0].port
 			uci set dhcp.cfg02411c.nonegcache='0'
 			uci set dhcp.cfg02411c.filterwin2k='0'
-			/etc/init.d/dnsmasq reload
 			uci commit
+			/etc/init.d/dnsmasq reload
 			;;
 			
 	esac
@@ -97,11 +97,21 @@ dns_setting()
 main_process()
 {
 	EXEC_PATH="/usr/bin/shadowtunnel/shadowtunnel "
+	hosts_PATH="/tmp/st_hosts.dat"
 	pwenable=`echo $passwd | wc -w`
+	hosts_enable=`uci get shadowtunnel.@login[0].hosts | wc -w`
 	dns_arg=""
 	passwd_arg=""
 	udp_arg=""
 	console_cmd=""
+	case $hosts_enable in
+		0)
+			;;
+		*)
+			rm -f ${hosts_PATH}
+			uci get shadowtunnel.@login[0].hosts > ${hosts_PATH}
+			;;
+	esac
 	case $udp in
 		normal)
 			;;
