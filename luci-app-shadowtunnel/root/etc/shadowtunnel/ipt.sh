@@ -1,20 +1,24 @@
 #!/bin/sh
-
 add_serveripaddr()
 {
-	line=`cat /tmp/raw_ip.temp | wc -l`
-	until [ $line -le 0 ] 
-	do
-		ip=`sed -n "$line p " /tmp/raw_ip.temp`
-		iptables -t nat -A PROXY -d ${ip%%:*} -j RETURN
-		let "line-=1"
-	done
-	
+        while :
+        do
+                num=`echo $1 | wc -w`
+                case $num in
+                0)
+                        break
+                        ;;
+                *)
+						temp=${1%%:*}
+                        iptables -t nat -A PROXY -d ${temp##*@} -j RETURN
+                        shift
+                        ;;
+                esac
+        done
 }
-
 if [ $1 == "-h" ] ; then
 	echo "invald parameter"
-	echo "usage: ipt.sh [server_ipaddr] [local_port]"
+	echo "usage: ipt.sh [local_port] [run_mode]"
 fi
 
 #路由器运行proxy监听的端口:
@@ -31,7 +35,10 @@ iptables -t nat -N PROXY
 # Ignore your PROXY server's addresses
 # It's very IMPORTANT, just be careful.
 
-add_serveripaddr
+raw_ipaddr=`uci get /etc/config/shadowtunnel.@login[0].ipaddr | awk '{for(i=1;i<=NF;i++) printf $i" "}'`
+raw_extra=`uci get /etc/config/shadowtunnel.@login[0].extra | awk '{for(i=1;i<=NF;i++) printf $i" "}'`
+add_serveripaddr ${raw_ipaddr}
+add_serveripaddr ${raw_extra}
 
 # Ignore LANs IP address
 iptables -t nat -A PROXY -d 0.0.0.0/8 -j RETURN
@@ -68,7 +75,10 @@ iptables -t nat -N PROXY
 # Ignore your PROXY server's addresses
 # It's very IMPORTANT, just be careful.
 
-add_serveripaddr
+raw_ipaddr=`uci get /etc/config/shadowtunnel.@login[0].ipaddr | awk '{for(i=1;i<=NF;i++) printf $i" "}'`
+raw_extra=`uci get /etc/config/shadowtunnel.@login[0].extra | awk '{for(i=1;i<=NF;i++) printf $i" "}'`
+add_serveripaddr ${raw_ipaddr}
+add_serveripaddr ${raw_extra}
 
 # Ignore LANs IP address
 iptables -t nat -A PROXY -d 0.0.0.0/8 -j RETURN
