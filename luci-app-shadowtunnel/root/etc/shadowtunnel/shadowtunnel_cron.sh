@@ -21,7 +21,7 @@ case $reset in
 esac
 hour=`uci get /etc/config/shadowtunnel.@login[0].hour`
 
-case `echo hour | wc -w` in
+case `echo $hour | wc -w` in
 0)
 	exit 0
 	;;
