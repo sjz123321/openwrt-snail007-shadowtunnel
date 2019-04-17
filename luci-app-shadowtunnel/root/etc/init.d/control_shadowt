@@ -82,6 +82,7 @@ dns_setting()
             uci set dhcp.@dnsmasq[0].port='5353'
 			uci commit
             /etc/init.d/dnsmasq reload
+			sleep 2
 			;;
 
 		disable)
@@ -91,6 +92,7 @@ dns_setting()
 			uci set dhcp.cfg02411c.filterwin2k='0'
 			uci commit
 			/etc/init.d/dnsmasq reload
+			sleep 2
 			;;
 			
 	esac
