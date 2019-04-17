@@ -5,7 +5,7 @@ config login
 	list ipaddr '11.22.33.44:5566@2'
 	option udp 'normal'
 	option pwenable 'disable'
-	option Global_passwd 'shadowtunnel'
+	option passwd 'shadowtunnel'
 	option dns_enable '1'
 	option hour '3'
 	option strategy 'roundrobin'

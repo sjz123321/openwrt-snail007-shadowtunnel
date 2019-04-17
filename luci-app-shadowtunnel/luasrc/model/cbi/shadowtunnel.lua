@@ -34,9 +34,9 @@ encrypt:value("cast5-cfb")
 encrypt:value("rc4-md5")
 encrypt:value("chacha20")
 
-Global_passwd=s:option(Value,"Global_passwd",translate("Global Password"))
-Global_passwd.datatype = "host"
-Global_passwd.rmempty = true
+passwd=s:option(Value,"passwd",translate("Global Password"))
+passwd.datatype = "host"
+passwd.rmempty = true
 
 
 udp=s:option(ListValue,"udp",translate("transport protocol"))
