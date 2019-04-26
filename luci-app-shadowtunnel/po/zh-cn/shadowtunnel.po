@@ -65,7 +65,7 @@ msgid "select a time to update CHN-IPs list everyday"
 msgstr "每天自动更新中国IP段的时间点"
 
 msgid "Note:To ensure GFW is up to date GFW-List will be update every month.but it may cost a long time so it is recommanded to update when you are not using router."
-msgstr "注意：为了确保GFW实时更新，请选择一个空闲时间更新GFW-list 推荐在您不使用路由器时"
+msgstr "注意：为了确保GFW实时更新，请选择一个空闲时间更新GFW-list（每月一次） 推荐在您不使用路由器时"
 
 msgid "Note: Please enter the server's password@ip:port#weight like example. Example st@11.22.33.44:5566#1 Both @.. and #.. is optional. a. Using weight balance-strategy ...#(your_setting_weight). b. Setting unique password for this server (your_passwd)@... ps. -p password is a global password. if you are not setting unique password for the server"
 msgstr "注意：请根据例子输入服务器的 密码@IP:端口#负载均衡参数。例子 st@11.22.33.44:5566#1 @..和#..参数都是可选的。A.当你使用负载均衡策略时,请使用这种格式 #(weight)表示负载均衡参数 B.为每一个服务端设置独立密码请使用 密码@... 注：-p password 是一个全局密码。当独立密码没有设置时全局密码生效"
