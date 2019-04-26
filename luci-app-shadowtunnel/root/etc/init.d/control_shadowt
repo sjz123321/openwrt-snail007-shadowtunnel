@@ -144,6 +144,7 @@ main_process()
 	case $dns_enable in
 		0)
 			dns_setting disable
+			dns_arg=" -dns :51097" #don't ask me why!
 			;;
 		*)
 			dns_setting enable
