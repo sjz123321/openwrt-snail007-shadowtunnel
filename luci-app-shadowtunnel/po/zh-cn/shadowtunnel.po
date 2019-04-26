@@ -64,7 +64,7 @@ msgstr "全局代理"
 msgid "select a time to update CHN-IPs list everyday"
 msgstr "每天自动更新中国IP段的时间点"
 
-msgid "Note:To ensure GFW is up to date GFW-List will be update every week.but it may cost a long time so it is recommanded to update when you are not using router."
+msgid "Note:To ensure GFW is up to date GFW-List will be update every month.but it may cost a long time so it is recommanded to update when you are not using router."
 msgstr "注意：为了确保GFW实时更新，请选择一个空闲时间更新GFW-list 推荐在您不使用路由器时"
 
 msgid "Note: Please enter the server's password@ip:port#weight like example. Example st@11.22.33.44:5566#1 Both @.. and #.. is optional. a. Using weight balance-strategy ...#(your_setting_weight). b. Setting unique password for this server (your_passwd)@... ps. -p password is a global password. if you are not setting unique password for the server"

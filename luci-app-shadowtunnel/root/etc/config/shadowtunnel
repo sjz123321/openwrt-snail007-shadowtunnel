@@ -7,6 +7,6 @@ config login
 	option pwenable 'disable'
 	option passwd 'shadowtunnel'
 	option dns_enable '1'
-	option hour '3'
+	option hour '24'
 	option strategy 'roundrobin'
 	option encrypt 'aes-192-cfb'

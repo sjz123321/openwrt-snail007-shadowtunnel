@@ -83,7 +83,7 @@ hour:value("21")
 hour:value("22")
 hour:value("23")
 hour:value("24",translate("disable"))
-hour.description = translate("Note:To ensure GFW is up to date GFW-List will be update every week.but it may cost a long time so it is recommanded to update when you are not using router.")
+hour.description = translate("Note:To ensure GFW is up to date GFW-List will be update every month.but it may cost a long time so it is recommanded to update when you are not using router.")
 hour:depends({mode="GFW"})
 hour:depends({mode="Global"})
 
