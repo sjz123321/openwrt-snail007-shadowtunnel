@@ -36,7 +36,7 @@ case $hour in
 *)
 	crontab -r
 	mkdir /tmp/crond/
-	echo "0 $hour * * * sh /etc/shadowtunnel/update_chn_ipaddr.sh && sleep 30" >> /tmp/crond/root
+	echo "0 $hour 15 * * sh /etc/shadowtunnel/update_chn_ipaddr.sh && sleep 30" >> /tmp/crond/root
 	crontab /tmp/crond/root
 	rm -f /tmp/crond/root
 	;;
