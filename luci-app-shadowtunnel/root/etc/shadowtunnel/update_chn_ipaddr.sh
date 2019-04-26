@@ -17,8 +17,8 @@ ip=`sed -n "$i p " /etc/chnroute.txt`
 ipset add ipchn $ip
 let "i-=1"
 done
-cp ipset_bak.db ipset_bak.db.old
-ipset save ipchn /etc/ipset_bak.db
+cp /etc/ipset_bak.db /etc/ipset_bak.db.old
+ipset save ipchn > /etc/ipset_bak.db
 echo "GFW ipset update compelete"
 exit 0
 
