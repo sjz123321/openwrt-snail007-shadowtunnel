@@ -25,7 +25,7 @@ msgstr "普通tcp模式"
 msgid "tcp over udp mode"
 msgstr "tcp over udp模式"
 
-msgid "Global_passwd"
+msgid "Global Password"
 msgstr "全局密码"
 
 msgid "Note: To save memory , compression is off"
