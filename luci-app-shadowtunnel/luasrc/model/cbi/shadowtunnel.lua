@@ -11,9 +11,10 @@ switch:value("enable",translate("enable"))
 switch:value("disable",translate("disable"))
 
 mode=s:option(ListValue,"mode",translate("Proxy mode selection"))
-mode:value("GFW",translate("Bypassing the Chinese mainland's ip mode"))
+mode:value("CHN_ONLY",translate("Proxy Chinese IP Only"))
 mode:value("Global",translate("Global mode"))
 mode:value("DNS",translate("DNS mode"))
+mode:value("GFW",translate("Bypassing the Chinese mainland's ip mode"))
 
 ipaddr=s:option(DynamicList,"ipaddr",translate("server ip address"))
 ipaddr.description = translate("Note: Please enter the server's password@ip:port#weight like example. Example st@11.22.33.44:5566#1 Both @.. and #.. is optional. a. Using weight balance-strategy ...#(your_setting_weight). b. Setting unique password for this server (your_passwd)@... ps. -p password is a global password. if you are not setting unique password for the server")
@@ -34,9 +35,9 @@ encrypt:value("cast5-cfb")
 encrypt:value("rc4-md5")
 encrypt:value("chacha20")
 
-Global_passwd=s:option(Value,"Global_passwd",translate("Global Password"))
-Global_passwd.datatype = "host"
-Global_passwd.rmempty = true
+passwd=s:option(Value,"passwd",translate("Global Password"))
+passwd.datatype = "host"
+passwd.rmempty = true
 
 
 udp=s:option(ListValue,"udp",translate("transport protocol"))
@@ -83,9 +84,11 @@ hour:value("21")
 hour:value("22")
 hour:value("23")
 hour:value("24",translate("disable"))
-hour.description = translate("Note:To ensure GFW is up to date GFW-List will be update every week.but it may cost a long time so it is recommanded to update when you are not using router.")
+hour.description = translate("Note:To ensure GFW is up to date GFW-List will be update every month.but it may cost a long time so it is recommanded to update when you are not using router.")
 hour:depends({mode="GFW"})
 hour:depends({mode="Global"})
+hour:depends({mode="CHN_ONLY"})
+
 
 reset=s:option(ListValue,"reset",translate("Automaticly restart shadowtunnel"))
 reset:value("0",translate("disable"))
@@ -103,11 +106,14 @@ hosts=s:option(TextValue,"hosts",translate("Custom hosts setting"))
 hosts.rmempty = true   
 hosts.rows = 10 
 hosts.description = translate("<br/>Note: Shadowtunnel provides custom hosts in the same format as the hosts file,which you can customize as needed")
+hosts:depends({mode="DNS"})                                                                           
+hosts:depends({dns_enable="1"})
 
-dns_forward=s:option(TextValue,"dns_forward",translate("Custom dns_forward setting"))
+dns_forward=s:option(TextValue,"dns_forward",translate("Custom Dns forward setting"))
 dns_forward.rmempty = true   
 dns_forward.rows = 10 
-dns_forward.description = translate("<br/>Note: Shadowtunnel provides custom hosts in the same format as the hosts file,which you can customize as needed")
+dns_forward:depends({mode="DNS"})                                                                     
+dns_forward:depends({dns_enable="1"})
 
 local e=luci.http.formvalue("cbi.apply")
 if e then

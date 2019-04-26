@@ -38,8 +38,6 @@ run_shadowtunnel()
 	cmd="/usr/bin/shadowtunnel/shadowtunnel "
 	##pre-treatment
 	ip_result=`uci get /etc/config/shadowtunnel.@login[0].ipaddr | awk '{for(i=1;i<=NF;i++) printf " -f "$i}'`
-	hosts_setting
-	mode_select
 	case $switch in
 	enable)
 		shutdown_process
@@ -50,27 +48,6 @@ run_shadowtunnel()
 		;;
 	esac
 	#####
-	}
-hosts_setting()
-{
-    rm -f /tmp/st_hosts.dat
-    a=`uci get /etc/config/shadowtunnel.@login[0].hosts`
-    printf "$a" >> /tmp/st_hosts.dat
-}
-mode_select()
-{
-	case $mode in
-        GFW)
-            run_mode=GFW
-
-            ;;
-
-        Global)
-            run_mode=start
-
-            ;;
-            
-    esac
 }
 dns_setting()
 {
@@ -82,6 +59,7 @@ dns_setting()
             uci set dhcp.@dnsmasq[0].port='5353'
 			uci commit
             /etc/init.d/dnsmasq reload
+			sleep 2
 			;;
 
 		disable)
@@ -91,6 +69,7 @@ dns_setting()
 			uci set dhcp.cfg02411c.filterwin2k='0'
 			uci commit
 			/etc/init.d/dnsmasq reload
+			sleep 2
 			;;
 			
 	esac
@@ -142,6 +121,7 @@ main_process()
 	case $dns_enable in
 		0)
 			dns_setting disable
+			dns_arg=" -dns :51097" #don't ask me why!
 			;;
 		*)
 			dns_setting enable
@@ -162,6 +142,10 @@ main_process()
 			dns_setting enable
 			dns_arg=" -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
 			;;
+		CHN_ONLY)
+			run_mode=CHN_ONLY
+			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
+			;;			
     esac
 	console_cmd=${EXEC_PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" "$dns_forward" -daemon -forever -redir -nolog"
 	echo "test-test"

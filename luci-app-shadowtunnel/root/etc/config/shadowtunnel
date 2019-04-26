@@ -2,11 +2,11 @@
 config login
 	option mode 'GFW'
 	option switch 'disable'
-	list ipaddr '11.22.33.44:5566@2'
+	list ipaddr '11.22.33.44:5566#2'
 	option udp 'normal'
 	option pwenable 'disable'
 	option passwd 'shadowtunnel'
 	option dns_enable '1'
-	option hour '3'
+	option hour '24'
 	option strategy 'roundrobin'
 	option encrypt 'aes-192-cfb'
