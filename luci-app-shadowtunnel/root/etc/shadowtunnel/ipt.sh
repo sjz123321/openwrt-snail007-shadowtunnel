@@ -92,7 +92,7 @@ iptables -t nat -A PROXY -d 240.0.0.0/4 -j RETURN
 
 # RETURN chinese address
 ipset restore -f /etc/ipset_bak.db
-iptables -t nat -A PROXY -m set --match-set ipchn dst -p tcp -j RETURN
+iptables -t nat -A PROXY -m set ! --match-set ipchn dst -p tcp -j RETURN
 
 # Anyport tcp should be redirected to PROXY's local port
 iptables -t nat -A PROXY -p tcp -j REDIRECT --to-ports $proxy_local_port

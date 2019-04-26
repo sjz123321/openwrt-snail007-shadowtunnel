@@ -11,7 +11,7 @@ switch:value("enable",translate("enable"))
 switch:value("disable",translate("disable"))
 
 mode=s:option(ListValue,"mode",translate("Proxy mode selection"))
-mode:value("GFW",translate("Bypassing the Chinese mainland's ip mode"))
+mode:value("GFW",translate("Proxy Chinese IP Only"))
 mode:value("Global",translate("Global mode"))
 mode:value("DNS",translate("DNS mode"))
 

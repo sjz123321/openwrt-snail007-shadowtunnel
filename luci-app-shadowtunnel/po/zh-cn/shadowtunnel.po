@@ -55,8 +55,8 @@ msgstr "24小时"
 msgid "Proxy mode selection"
 msgstr "选择代理模式"
 
-msgid "Bypassing the Chinese mainland's ip mode"
-msgstr "绕过中国IP"
+msgid "Proxy Chinese IP Only"
+msgstr "仅代理中国段IP"
 
 msgid "Global mode"
 msgstr "全局代理"
