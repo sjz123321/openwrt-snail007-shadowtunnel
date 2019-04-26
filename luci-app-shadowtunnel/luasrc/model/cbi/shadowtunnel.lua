@@ -103,10 +103,14 @@ hosts=s:option(TextValue,"hosts",translate("Custom hosts setting"))
 hosts.rmempty = true   
 hosts.rows = 10 
 hosts.description = translate("<br/>Note: Shadowtunnel provides custom hosts in the same format as the hosts file,which you can customize as needed")
+hosts:depends({mode="DNS"})                                                                           
+hosts:depends({dns_enable="1"})
 
 dns_forward=s:option(TextValue,"dns_forward",translate("Custom Dns forward setting"))
 dns_forward.rmempty = true   
 dns_forward.rows = 10 
+dns_forward:depends({mode="DNS"})                                                                     
+dns_forward:depends({dns_enable="1"})
 
 local e=luci.http.formvalue("cbi.apply")
 if e then
