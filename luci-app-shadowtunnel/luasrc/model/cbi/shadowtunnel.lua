@@ -50,6 +50,7 @@ dns_enable:value("1",translate("enable"))
 dns_enable:value("0",translate("disable"))
 dns_enable:depends({mode="GFW"})
 dns_enable:depends({mode="Global"})
+dns_enable:depends({mode="CHN_ONLY"})
 
 strategy=s:option(ListValue,"strategy",translate("balance strategy"))
 strategy:value("roundrobin",translate("roundrobin"))
