@@ -32,6 +32,7 @@ run_shadowtunnel()
 	config_get encrypt $1 encrypt
 	hosts="-dns-hosts /tmp/st_hosts.dat"
 	dns_forward="-dns-forward /tmp/dns_forward.dat"
+	dns_forward_status=""
 	localport="20369"
 	dns="53"
 	pwenable=`echo $passwd | wc -w`
@@ -86,24 +87,6 @@ main_process()
 	passwd_arg=""
 	udp_arg=""
 	console_cmd=""
-	case $dns_forward_enable in
-		0)
-			dns_forward=""
-			;;
-		*)
-			rm -f ${dns_forward_PATH}
-			uci get shadowtunnel.@login[0].dns_forward > ${dns_forward_PATH}
-			;;
-	esac
-	case $hosts_enable in
-		0)
-			hosts=""
-			;;
-		*)
-			rm -f ${hosts_PATH}
-			uci get shadowtunnel.@login[0].hosts > ${hosts_PATH}
-			;;
-	esac
 	case $udp in
 		normal)
 			;;
@@ -132,6 +115,10 @@ main_process()
         GFW)
             run_mode=GFW
 			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
+			dns_setting enable
+			dns_arg=" -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
+			dns_forward_enable=1 ##open dns-forward
+			dns_forward_status="GFW"
             ;;
 
         Global)
@@ -141,14 +128,50 @@ main_process()
 		DNS)
 			dns_setting enable
 			dns_arg=" -dns-server 8.8.8.8:53 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
+			dns_forward_enable=1 ##open dns-forward
+			dns_forward_status="DNS"
 			;;
 		CHN_ONLY)
 			run_mode=CHN_ONLY
 			sh /etc/shadowtunnel/ipt.sh $localport $run_mode
+			dns_setting enable
+			dns_arg=" -dns-server 127.0.0.1:5353 -ttl 600 -cache /tmp/dnscache.dat -dns :"$dns
+			dns_forward_enable=1 ##open dns-forward
+			dns_forward_status="CHN_ONLY"
 			;;			
     esac
+	case $dns_forward_enable in
+		0)
+			dns_forward=""
+			;;
+		*)
+			rm -f ${dns_forward_PATH}
+			uci get shadowtunnel.@login[0].dns_forward > ${dns_forward_PATH}
+			case $dns_forward_status in
+				GFW|DNS)
+					echo "**.00000.com 0.0.0.0:5353" >> ${dns_forward_PATH}
+					cat /etc/direct.txt >> ${dns_forward_PATH}
+					;;
+				CHN_ONLY)
+					echo "**.00000.com 114.114.114.114:5353" >> ${dns_forward_PATH}
+					cat /etc/direct.txt >> ${dns_forward_PATH}
+					;;
+				*)
+					;;
+			esac
+			;;
+	esac
+	case $hosts_enable in
+		0)
+			hosts=""
+			;;
+		*)
+			rm -f ${hosts_PATH}
+			uci get shadowtunnel.@login[0].hosts > ${hosts_PATH}
+			;;
+	esac
 	console_cmd=${EXEC_PATH}${udp_arg}"-E "${ip_result}" -l :"${localport}" "${dns_arg}${passwd_arg}" -lb-method "$strategy" -lb-hashtarget ""-m "$encrypt" "$hosts" "$dns_forward" -daemon -forever -redir -nolog"
-	echo "test-test"
+	echo $console_cmd
 	$console_cmd
 	
 }

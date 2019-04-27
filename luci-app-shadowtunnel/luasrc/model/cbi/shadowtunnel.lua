@@ -36,7 +36,6 @@ encrypt:value("rc4-md5")
 encrypt:value("chacha20")
 
 passwd=s:option(Value,"passwd",translate("Global Password"))
-passwd.datatype = "host"
 passwd.rmempty = true
 
 
@@ -48,9 +47,7 @@ udp.description = translate("Note: To save memory , compression is off")
 dns_enable=s:option(ListValue,"dns_enable",translate("prevent DNS pollution"))
 dns_enable:value("1",translate("enable"))
 dns_enable:value("0",translate("disable"))
-dns_enable:depends({mode="GFW"})
 dns_enable:depends({mode="Global"})
-dns_enable:depends({mode="CHN_ONLY"})
 
 strategy=s:option(ListValue,"strategy",translate("balance strategy"))
 strategy:value("roundrobin",translate("roundrobin"))
@@ -107,13 +104,17 @@ hosts=s:option(TextValue,"hosts",translate("Custom hosts setting"))
 hosts.rmempty = true   
 hosts.rows = 10 
 hosts.description = translate("<br/>Note: Shadowtunnel provides custom hosts in the same format as the hosts file,which you can customize as needed")
-hosts:depends({mode="DNS"})                                                                           
+hosts:depends({mode="CHN_ONLY"}) 
+hosts:depends({mode="GFW"})
+hosts:depends({mode="DNS"})                                                                          
 hosts:depends({dns_enable="1"})
 
 dns_forward=s:option(TextValue,"dns_forward",translate("Custom Dns forward setting"))
 dns_forward.rmempty = true   
 dns_forward.rows = 10 
-dns_forward:depends({mode="DNS"})                                                                     
+dns_forward:depends({mode="CHN_ONLY"}) 
+dns_forward:depends({mode="GFW"})
+dns_forward:depends({mode="DNS"})                                                                    
 dns_forward:depends({dns_enable="1"})
 
 local e=luci.http.formvalue("cbi.apply")
