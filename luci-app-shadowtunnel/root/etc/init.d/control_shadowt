@@ -58,6 +58,8 @@ dns_setting()
 			uci delete dhcp.cfg02411c.filterwin2k
 			uci set dhcp.@dnsmasq[0].nonwildcard='0'
             uci set dhcp.@dnsmasq[0].port='5353'
+			lan_ipaddr=`uci get network.lan.ipaddr`
+			uci add_list dhcp.lan.dhcp_option="6,"$lan_ipaddr
 			uci commit
             /etc/init.d/dnsmasq reload
 			sleep 2
@@ -68,6 +70,7 @@ dns_setting()
 			uci delete dhcp.@dnsmasq[0].port
 			uci set dhcp.cfg02411c.nonegcache='0'
 			uci set dhcp.cfg02411c.filterwin2k='0'
+			uci delete dhcp.lan.dhcp_option
 			uci commit
 			/etc/init.d/dnsmasq reload
 			sleep 2
