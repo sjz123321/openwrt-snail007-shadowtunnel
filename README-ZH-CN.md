@@ -107,7 +107,7 @@ See https://openwrt.org/docs/guide-developer/source-code/start
 
 `cd /package`
 
-`git clone https://github.com/sjz123321/openwrt-snail007-shadowtunnel.git`
+`git clone https://github.com/sjz123321/openwrt-snail007-shadowtunnel.git -b dev`
 
 `cd ../`
 
